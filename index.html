@@ -18,21 +18,44 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       :root {
-        --black: #0a0a0a;
         --yellow: #F5C518;
         --red: #E53935;
-        --white: #FFFFFF;
-        --gray: #1a1a1a;
-        --gray-light: #2a2a2a;
+      }
+      [data-theme="dark"] {
+        --bg: #0a0a0a;
+        --bg-card: #1a1a1a;
+        --bg-card-border: #2a2a2a;
+        --text: #FFFFFF;
+        --text-muted: #9CA3AF;
+        --text-dim: #6B7280;
+        --text-body: #D1D5DB;
+        --nav-bg: rgba(10, 10, 10, 0.85);
+        --nav-border: rgba(245, 197, 24, 0.1);
+        --gray-900: #111;
+        --progress-bg: #333;
+      }
+      [data-theme="light"] {
+        --bg: #F9FAFB;
+        --bg-card: #FFFFFF;
+        --bg-card-border: #E5E7EB;
+        --text: #111827;
+        --text-muted: #4B5563;
+        --text-dim: #9CA3AF;
+        --text-body: #374151;
+        --nav-bg: rgba(255, 255, 255, 0.9);
+        --nav-border: rgba(0, 0, 0, 0.08);
+        --gray-900: #F3F4F6;
+        --progress-bg: #D1D5DB;
       }
       * { box-sizing: border-box; }
       html { scroll-behavior: smooth; }
 
       body {
         font-family: 'Inter', sans-serif;
-        background: var(--black);
-        color: var(--white);
+        background: var(--bg);
+        color: var(--text);
         overflow-x: hidden;
+        transition: background 0.3s, color 0.3s;
       }
 
       .font-anton { font-family: 'Anton', sans-serif; }
@@ -41,12 +64,12 @@
       .text-red { color: var(--red); }
       .bg-yellow { background: var(--yellow); }
       .bg-red { background: var(--red); }
-      .bg-gray-box { background: var(--gray); }
-      .border-gray-box { border-color: var(--gray-light); }
+      .bg-gray-box { background: var(--bg-card); }
+      .border-gray-box { border-color: var(--bg-card-border); }
 
       .btn-yellow {
         background: var(--yellow);
-        color: var(--black);
+        color: #000;
         font-family: 'Anton', sans-serif;
         transition: all 0.25s;
       }
@@ -64,7 +87,7 @@
       }
       .btn-outline:hover {
         background: var(--yellow);
-        color: var(--black);
+        color: #000;
         transform: translateY(-3px);
       }
 
@@ -81,10 +104,11 @@
       }
 
       .nav-glass {
-        background: rgba(10, 10, 10, 0.85);
+        background: var(--nav-bg);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        border-bottom: 1px solid rgba(245, 197, 24, 0.1);
+        border-bottom: 1px solid var(--nav-border);
+        transition: background 0.3s, border 0.3s;
       }
 
       .hero-video {
@@ -111,7 +135,7 @@
       }
 
       .pricing-card {
-        border: 2px solid var(--gray-light);
+        border: 2px solid var(--bg-card-border);
         transition: all 0.3s;
       }
       .pricing-card:hover {
@@ -129,7 +153,7 @@
         left: 50%;
         transform: translateX(-50%);
         background: var(--yellow);
-        color: var(--black);
+        color: #000;
         font-family: 'Anton', sans-serif;
         font-size: 12px;
         letter-spacing: 1px;
@@ -277,7 +301,7 @@
       /* Audio player */
       .audio-card {
         transition: all 0.3s;
-        border: 1px solid var(--gray-light);
+        border: 1px solid var(--bg-card-border);
       }
       .audio-card:hover {
         border-color: var(--yellow);
@@ -309,11 +333,11 @@
       .play-btn svg {
         width: 22px;
         height: 22px;
-        fill: var(--black);
+        fill: #000;
       }
       .progress-track {
         height: 4px;
-        background: #333;
+        background: var(--progress-bg);
         border-radius: 2px;
         cursor: pointer;
         position: relative;
@@ -363,6 +387,51 @@
         50% { height: 20px; }
       }
 
+      /* Theme/Lang toggles */
+      .toggle-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+        background: transparent;
+        color: var(--text-muted);
+      }
+      .toggle-btn:hover {
+        background: var(--bg-card);
+        color: var(--yellow);
+      }
+      .toggle-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+      .lang-btn {
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        padding: 4px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 1px solid var(--bg-card-border);
+        background: transparent;
+        color: var(--text-muted);
+      }
+      .lang-btn:hover {
+        border-color: var(--yellow);
+        color: var(--yellow);
+      }
+      .lang-btn.active {
+        background: var(--yellow);
+        color: #000;
+        border-color: var(--yellow);
+      }
+
       @media (prefers-reduced-motion: reduce) {
         .fade-in, .fade-in-left, .fade-in-right { opacity: 1; transform: none; transition: none; }
         .marquee-track { animation: none; }
@@ -375,7 +444,7 @@
       }
     </style>
   </head>
-  <body>
+  <body data-theme="dark">
     <!-- NAVBAR -->
     <nav class="nav-glass fixed top-4 left-4 right-4 z-40" id="navbar">
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
@@ -384,29 +453,45 @@
             <img src="/logo.png" alt="Fast Food Agency" class="h-8 w-auto" />
             <span class="font-anton text-xl tracking-wider text-yellow hidden sm:inline">FAST FOOD AGENCY</span>
           </a>
-          <div class="hidden md:flex items-center gap-8">
-            <a href="#accueil" class="text-sm font-medium text-gray-300 hover:text-yellow transition-colors duration-200 no-underline">Accueil</a>
-            <a href="#formules" class="text-sm font-medium text-gray-300 hover:text-yellow transition-colors duration-200 no-underline">Formules</a>
-            <a href="#realisations" class="text-sm font-medium text-gray-300 hover:text-yellow transition-colors duration-200 no-underline">Réalisations</a>
-            <a href="#faq" class="text-sm font-medium text-gray-300 hover:text-yellow transition-colors duration-200 no-underline">FAQ</a>
-            <a href="#contact" class="text-sm font-medium text-gray-300 hover:text-yellow transition-colors duration-200 no-underline">Contact</a>
-            <a href="#contact" class="btn-yellow no-underline px-5 py-2 text-sm tracking-wider">JE RÉSERVE</a>
+          <div class="hidden md:flex items-center gap-6">
+            <a href="#accueil" class="text-sm font-medium no-underline transition-colors duration-200" style="color:var(--text-muted)" data-i18n="nav-home">Accueil</a>
+            <a href="#formules" class="text-sm font-medium no-underline transition-colors duration-200" style="color:var(--text-muted)" data-i18n="nav-plans">Formules</a>
+            <a href="#realisations" class="text-sm font-medium no-underline transition-colors duration-200" style="color:var(--text-muted)" data-i18n="nav-realisations">Réalisations</a>
+            <a href="#faq" class="text-sm font-medium no-underline transition-colors duration-200" style="color:var(--text-muted)" data-i18n="nav-faq">FAQ</a>
+            <a href="#contact" class="text-sm font-medium no-underline transition-colors duration-200" style="color:var(--text-muted)" data-i18n="nav-contact">Contact</a>
+            <div class="flex items-center gap-2">
+              <button class="lang-btn active" data-lang="fr">FR</button>
+              <button class="lang-btn" data-lang="en">EN</button>
+            </div>
+            <button class="toggle-btn" id="theme-toggle" aria-label="Toggle theme">
+              <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+              <svg class="moon-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+            <a href="#contact" class="btn-yellow no-underline px-5 py-2 text-sm tracking-wider" data-i18n="nav-cta">JE RÉSERVE</a>
           </div>
-          <button id="menu-btn" class="md:hidden text-white p-2" aria-label="Menu">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-          </button>
+          <div class="flex items-center gap-2 md:hidden">
+            <button class="lang-btn active" data-lang="fr">FR</button>
+            <button class="lang-btn" data-lang="en">EN</button>
+            <button class="toggle-btn" id="theme-toggle-mobile" aria-label="Toggle theme">
+              <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+              <svg class="moon-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+            <button id="menu-btn" class="text-white p-2" aria-label="Menu" style="color:var(--text)">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
       <div id="mobile-menu" class="md:hidden hidden px-4 pb-4">
         <div class="flex flex-col gap-3">
-          <a href="#accueil" class="text-gray-300 hover:text-yellow no-underline py-2">Accueil</a>
-          <a href="#formules" class="text-gray-300 hover:text-yellow no-underline py-2">Formules</a>
-          <a href="#realisations" class="text-gray-300 hover:text-yellow no-underline py-2">Réalisations</a>
-          <a href="#faq" class="text-gray-300 hover:text-yellow no-underline py-2">FAQ</a>
-          <a href="#contact" class="text-gray-300 hover:text-yellow no-underline py-2">Contact</a>
-          <a href="#contact" class="btn-yellow no-underline px-5 py-2 text-sm tracking-wider text-center">JE RÉSERVE</a>
+          <a href="#accueil" class="no-underline py-2 transition-colors duration-200" style="color:var(--text-muted)" data-i18n="nav-home">Accueil</a>
+          <a href="#formules" class="no-underline py-2 transition-colors duration-200" style="color:var(--text-muted)" data-i18n="nav-plans">Formules</a>
+          <a href="#realisations" class="no-underline py-2 transition-colors duration-200" style="color:var(--text-muted)" data-i18n="nav-realisations">Réalisations</a>
+          <a href="#faq" class="no-underline py-2 transition-colors duration-200" style="color:var(--text-muted)" data-i18n="nav-faq">FAQ</a>
+          <a href="#contact" class="no-underline py-2 transition-colors duration-200" style="color:var(--text-muted)" data-i18n="nav-contact">Contact</a>
+          <a href="#contact" class="btn-yellow no-underline px-5 py-2 text-sm tracking-wider text-center" data-i18n="nav-cta">JE RÉSERVE</a>
         </div>
       </div>
     </nav>
@@ -421,66 +506,66 @@
       </div>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full relative z-10">
         <div class="text-center fade-in">
-          <div class="badge-red inline-block mb-6">ABONNEMENT MENSUEL — SANS ENGAGEMENT</div>
+          <div class="badge-red inline-block mb-6" data-i18n="hero-badge">ABONNEMENT MENSUEL — SANS ENGAGEMENT</div>
           <h1 class="font-anton text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl leading-none text-white mb-6 tracking-tight">
-            TON SON.<br class="sm:hidden"/>
-            <span class="text-yellow block sm:inline">TON CLIP.</span><br class="hidden sm:inline"/>
-            <span class="text-red block sm:inline">TA PROMO.</span>
+            <span data-i18n="hero-line1">TON SON.</span><br class="sm:hidden"/>
+            <span class="text-yellow block sm:inline" data-i18n="hero-line2">TON CLIP.</span><br class="hidden sm:inline"/>
+            <span class="text-red block sm:inline" data-i18n="hero-line3">TA PROMO.</span>
           </h1>
           <p class="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed px-4">
-            Un abonnement unique pour les artistes qui veulent percer. Beat, clip, shooting, promo —
-            <span class="text-yellow font-semibold">on s'occupe de tout.</span>
+            <span data-i18n="hero-desc">Un abonnement unique pour les artistes qui veulent percer. Beat, clip, shooting, promo —</span>
+            <span class="text-yellow font-semibold" data-i18n="hero-desc-highlight">on s'occupe de tout.</span>
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#formules" class="btn-yellow no-underline px-10 py-4 text-xl tracking-wider cursor-pointer">JE RÉSERVE MON PACK →</a>
-            <a href="#contact" class="btn-outline no-underline px-10 py-4 text-xl tracking-wider cursor-pointer">CONTACTE-NOUS</a>
+            <a href="#formules" class="btn-yellow no-underline px-10 py-4 text-xl tracking-wider cursor-pointer" data-i18n="hero-cta1">JE RÉSERVE MON PACK →</a>
+            <a href="#contact" class="btn-outline no-underline px-10 py-4 text-xl tracking-wider cursor-pointer" data-i18n="hero-cta2">CONTACTE-NOUS</a>
           </div>
         </div>
       </div>
     </section>
 
     <!-- MARQUEE -->
-    <div class="border-y border-yellow/20 py-4 overflow-hidden bg-black">
+    <div class="border-y border-yellow/20 py-4 overflow-hidden" style="background:var(--bg)">
       <div class="marquee-track">
         <div class="marquee-item">
           <span class="text-yellow">✦</span>
-          <span class="text-white">BEAT</span>
+          <span style="color:var(--text)">BEAT</span>
           <span class="text-gray-600">/</span>
-          <span class="text-white">MIX</span>
+          <span style="color:var(--text)">MIX</span>
           <span class="text-gray-600">/</span>
-          <span class="text-white">CLIP</span>
+          <span style="color:var(--text)">CLIP</span>
           <span class="text-gray-600">/</span>
-          <span class="text-white">SHOOTING</span>
+          <span style="color:var(--text)">SHOOTING</span>
           <span class="text-gray-600">/</span>
-          <span class="text-white">PROMO</span>
+          <span style="color:var(--text)">PROMO</span>
           <span class="text-gray-600">/</span>
-          <span class="text-white">SITE WEB</span>
+          <span style="color:var(--text)" data-i18n="marquee-web">SITE WEB</span>
           <span class="text-yellow">✦</span>
         </div>
         <div class="marquee-item">
           <span class="text-yellow">✦</span>
-          <span class="text-white">BEAT</span>
+          <span style="color:var(--text)">BEAT</span>
           <span class="text-gray-600">/</span>
-          <span class="text-white">MIX</span>
+          <span style="color:var(--text)">MIX</span>
           <span class="text-gray-600">/</span>
-          <span class="text-white">CLIP</span>
+          <span style="color:var(--text)">CLIP</span>
           <span class="text-gray-600">/</span>
-          <span class="text-white">SHOOTING</span>
+          <span style="color:var(--text)">SHOOTING</span>
           <span class="text-gray-600">/</span>
-          <span class="text-white">PROMO</span>
+          <span style="color:var(--text)">PROMO</span>
           <span class="text-gray-600">/</span>
-          <span class="text-white">SITE WEB</span>
+          <span style="color:var(--text)" data-i18n="marquee-web">SITE WEB</span>
           <span class="text-yellow">✦</span>
         </div>
       </div>
     </div>
 
-    <!-- VALEUR AJOUTÉE - 3 PILIERS -->
+    <!-- VALEUR AJOUTÉE - 3 RAISONS -->
     <section class="py-24 grid-bg">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 fade-in">
-          <span class="text-yellow font-anton text-sm tracking-[4px]">POURQUOI NOUS</span>
-          <h2 class="font-anton text-4xl sm:text-5xl mt-3">3 RAISONS DE NOUS <span class="text-yellow">FAIRE CONFIANCE</span></h2>
+          <span class="text-yellow font-anton text-sm tracking-[4px]" data-i18n="why-label">POURQUOI NOUS</span>
+          <h2 class="font-anton text-4xl sm:text-5xl mt-3"><span data-i18n="why-title">DES ARTISTES QUI</span> <span class="text-yellow" data-i18n="why-title-highlight">ONT PERCÉ</span></h2>
           <div class="w-16 h-1 bg-yellow mx-auto mt-6"></div>
         </div>
         <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
@@ -490,22 +575,20 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
               </svg>
             </div>
-            <h3 class="font-anton text-2xl text-white mb-3">UN ANCIEN ARTISTE<br/>AUX COMMANDES</h3>
-            <p class="text-gray-400 leading-relaxed text-sm">
-              On connaît vos galères parce qu'on les a vécues. Pas de discours de commercial,
-              juste des mecs qui comprennent le game.
+            <h3 class="font-anton text-2xl mb-3" style="color:var(--text)" data-i18n="why-1-title">D'ANCIENS ARTISTES<br/>AUX COMMANDES</h3>
+            <p class="leading-relaxed text-sm" style="color:var(--text-body)" data-i18n="why-1-desc">
+              Avant d'être une agence, on était à votre place. On connaît vos galères, vos doutes, votre ambition. Pas de blabla de commercial — juste des artistes qui ont réussi et qui vous tendent la main.
             </p>
           </div>
           <div class="bg-gray-box p-8 lg:p-10 card-hover fade-in stagger-2 cursor-pointer group">
             <div class="w-14 h-14 bg-yellow/10 flex items-center justify-center mb-6 group-hover:bg-yellow/20 transition-colors">
               <svg class="w-7 h-7 text-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
               </svg>
             </div>
-            <h3 class="font-anton text-2xl text-white mb-3">PRODUCTION<br/>100% INTERNE</h3>
-            <p class="text-gray-400 leading-relaxed text-sm">
-              Studio, beatmakers, ingé son, vidéastes, graphistes. Tout est sous le même toit.
-              Pas de sous-traitance, pas d'attente.
+            <h3 class="font-anton text-2xl mb-3" style="color:var(--text)" data-i18n="why-2-title">UN RÉSEAU<br/>D'ARTISTES</h3>
+            <p class="leading-relaxed text-sm" style="color:var(--text-body)" data-i18n="why-2-desc">
+              On ne travaille pas seuls. Notre force, c'est un réseau d'artistes, beatmakers, réal, ingés son — tous issus du milieu. Chaque projet profite de l'expérience collective de ceux qui vivent la musique.
             </p>
           </div>
           <div class="bg-gray-box p-8 lg:p-10 card-hover fade-in stagger-3 cursor-pointer group">
@@ -514,10 +597,9 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
               </svg>
             </div>
-            <h3 class="font-anton text-2xl text-white mb-3">DES RÉSULTATS<br/>EN 5 JOURS</h3>
-            <p class="text-gray-400 leading-relaxed text-sm">
-              De la session studio à la livraison du clip, comptez 5 jours chrono.
-              On est rapides parce que vous l'êtes.
+            <h3 class="font-anton text-2xl mb-3" style="color:var(--text)" data-i18n="why-3-title">DES ARTISTES POUR<br/>DES ARTISTES</h3>
+            <p class="leading-relaxed text-sm" style="color:var(--text-body)" data-i18n="why-3-desc">
+              On ne vous voit pas comme un client, mais comme un pair. Notre mission : vous donner les clés qu'on aurait aimé avoir à vos débuts. Parce qu'on sait ce que ça fait d'être seul dans le game.
             </p>
           </div>
         </div>
@@ -528,8 +610,8 @@
     <section class="py-24 border-t border-gray-box/50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 fade-in">
-          <span class="text-yellow font-anton text-sm tracking-[4px]">L'ÉQUIPE</span>
-          <h2 class="font-anton text-4xl sm:text-5xl mt-3">CEUX QUI <span class="text-yellow">ASSURENT</span></h2>
+          <span class="text-yellow font-anton text-sm tracking-[4px]" data-i18n="team-label">L'ÉQUIPE</span>
+          <h2 class="font-anton text-4xl sm:text-5xl mt-3"><span data-i18n="team-title">CEUX QUI</span> <span class="text-yellow" data-i18n="team-title-highlight">ASSURENT</span></h2>
           <div class="w-16 h-1 bg-yellow mx-auto mt-6"></div>
         </div>
         <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -537,25 +619,25 @@
             <div class="w-36 h-36 mx-auto mb-6 overflow-hidden border-2 border-yellow/30 bg-gray-900 flex items-center justify-center">
               <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Harlem&backgroundColor=ffd5dc&scale=120" alt="Harlem William" class="w-full h-full object-cover" loading="lazy" />
             </div>
-            <h3 class="font-anton text-2xl text-white">HARLEM WILLIAM</h3>
-            <p class="text-yellow text-xs tracking-[2px] mt-1">CO-FONDATEUR · ARTISTE · BEATMAKER</p>
-            <p class="text-gray-500 text-sm mt-3 leading-relaxed max-w-xs mx-auto">Musicien et co-fondateur de FastFoodMusic. Il connaît le game sur le bout des doigts — du studio à la scène.</p>
+            <h3 class="font-anton text-2xl" style="color:var(--text)">HARLEM WILLIAM</h3>
+            <p class="text-yellow text-xs tracking-[2px] mt-1" data-i18n="team-1-role">CO-FONDATEUR · ARTISTE · BEATMAKER</p>
+            <p class="text-sm mt-3 leading-relaxed max-w-xs mx-auto" style="color:var(--text-dim)" data-i18n="team-1-desc">Musicien et co-fondateur de FastFoodMusic. Il connaît le game sur le bout des doigts — du studio à la scène.</p>
           </div>
           <div class="team-card bg-gray-box p-8 card-hover fade-in stagger-2 cursor-pointer text-center">
             <div class="w-36 h-36 mx-auto mb-6 overflow-hidden border-2 border-yellow/30 bg-gray-900 flex items-center justify-center">
               <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Houdini&backgroundColor=c0aede&scale=120" alt="Houdini" class="w-full h-full object-cover" loading="lazy" />
             </div>
-            <h3 class="font-anton text-2xl text-white">HOUDINI</h3>
-            <p class="text-yellow text-xs tracking-[2px] mt-1">CO-FONDATEUR · DÉV · VIDÉASTE</p>
-            <p class="text-gray-500 text-sm mt-3 leading-relaxed max-w-xs mx-auto">Développeur, vidéaste, motion designer. Tout ce qui sort de nos mains passe par les siennes.</p>
+            <h3 class="font-anton text-2xl" style="color:var(--text)">HOUDINI</h3>
+            <p class="text-yellow text-xs tracking-[2px] mt-1" data-i18n="team-2-role">CO-FONDATEUR · DÉV · VIDÉASTE</p>
+            <p class="text-sm mt-3 leading-relaxed max-w-xs mx-auto" style="color:var(--text-dim)" data-i18n="team-2-desc">Développeur, vidéaste, motion designer. Tout ce qui sort de nos mains passe par les siennes.</p>
           </div>
           <div class="team-card bg-gray-box p-8 card-hover fade-in stagger-3 cursor-pointer text-center">
             <div class="w-36 h-36 mx-auto mb-6 overflow-hidden border-2 border-yellow/30 bg-gray-900 flex items-center justify-center">
               <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Salvador&backgroundColor=a8d8ea" alt="Chris Salvador" class="w-full h-full object-cover" loading="lazy" />
             </div>
-            <h3 class="font-anton text-2xl text-white">CHRIS SALVADOR</h3>
-            <p class="text-yellow text-xs tracking-[2px] mt-1">INGÉNIEUR DU SON</p>
-            <p class="text-gray-500 text-sm mt-3 leading-relaxed max-w-xs mx-auto">Expert en mixage et sound design, il sculpte l'identité sonore de chaque projet avec une précision d'orfèvre. Du studio à la scène, le son est entre de bonnes mains.</p>
+            <h3 class="font-anton text-2xl" style="color:var(--text)">CHRIS SALVADOR</h3>
+            <p class="text-yellow text-xs tracking-[2px] mt-1" data-i18n="team-3-role">INGÉNIEUR DU SON</p>
+            <p class="text-sm mt-3 leading-relaxed max-w-xs mx-auto" style="color:var(--text-dim)" data-i18n="team-3-desc">Expert en mixage et sound design, il sculpte l'identité sonore de chaque projet avec une précision d'orfèvre. Du studio à la scène, le son est entre de bonnes mains.</p>
           </div>
         </div>
       </div>
@@ -565,10 +647,10 @@
     <section id="realisations" class="py-24 border-t border-gray-box/50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 fade-in">
-          <span class="text-yellow font-anton text-sm tracking-[4px]">RÉALISATIONS</span>
-          <h2 class="font-anton text-4xl sm:text-5xl mt-3">NOS <span class="text-yellow">PRODUCTIONS</span></h2>
+          <span class="text-yellow font-anton text-sm tracking-[4px]" data-i18n="prod-label">RÉALISATIONS</span>
+          <h2 class="font-anton text-4xl sm:text-5xl mt-3"><span data-i18n="prod-title">NOS</span> <span class="text-yellow" data-i18n="prod-title-highlight">PRODUCTIONS</span></h2>
           <div class="w-16 h-1 bg-yellow mx-auto mt-6"></div>
-          <p class="text-gray-400 mt-4 max-w-lg mx-auto">Clique sur un titre pour écouter</p>
+          <p class="mt-4 max-w-lg mx-auto" style="color:var(--text-dim)" data-i18n="prod-sub">Clique sur un titre pour écouter</p>
         </div>
         <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto" id="audio-grid">
           <div class="audio-card bg-gray-box p-6 fade-in stagger-1" data-track="0">
@@ -578,8 +660,8 @@
                 <svg class="pause-icon hidden" viewBox="0 0 24 24"><rect x="5" y="3" width="5" height="18" rx="1.5"/><rect x="14" y="3" width="5" height="18" rx="1.5"/></svg>
               </div>
               <div class="min-w-0 flex-1">
-                <h3 class="font-anton text-lg text-white truncate">PATATE SECA</h3>
-                <p class="text-gray-500 text-xs tracking-wider">HARLEM</p>
+                <h3 class="font-anton text-lg truncate" style="color:var(--text)">PATATE SECA</h3>
+                <p class="text-xs tracking-wider" style="color:var(--text-dim)">HARLEM</p>
               </div>
             </div>
             <div class="wave-bars hidden" data-wave="0">
@@ -590,8 +672,8 @@
               <div class="progress-thumb" data-track="0"></div>
             </div>
             <div class="flex justify-between mt-2">
-              <span class="text-gray-600 text-xs current-time" data-track="0">0:00</span>
-              <span class="text-gray-600 text-xs duration" data-track="0">0:00</span>
+              <span class="current-time text-xs" style="color:var(--text-dim)" data-track="0">0:00</span>
+              <span class="duration text-xs" style="color:var(--text-dim)" data-track="0">0:00</span>
             </div>
             <audio preload="metadata" data-track="0">
               <source src="/mp3/Harlem - patate seca.mp3" type="audio/mpeg" />
@@ -604,8 +686,8 @@
                 <svg class="pause-icon hidden" viewBox="0 0 24 24"><rect x="5" y="3" width="5" height="18" rx="1.5"/><rect x="14" y="3" width="5" height="18" rx="1.5"/></svg>
               </div>
               <div class="min-w-0 flex-1">
-                <h3 class="font-anton text-lg text-white truncate">LA MAGIE</h3>
-                <p class="text-gray-500 text-xs tracking-wider">HARLEM X 2NILAME</p>
+                <h3 class="font-anton text-lg truncate" style="color:var(--text)">LA MAGIE</h3>
+                <p class="text-xs tracking-wider" style="color:var(--text-dim)">HARLEM X 2NILAME</p>
               </div>
             </div>
             <div class="wave-bars hidden" data-wave="1">
@@ -616,8 +698,8 @@
               <div class="progress-thumb" data-track="1"></div>
             </div>
             <div class="flex justify-between mt-2">
-              <span class="text-gray-600 text-xs current-time" data-track="1">0:00</span>
-              <span class="text-gray-600 text-xs duration" data-track="1">0:00</span>
+              <span class="current-time text-xs" style="color:var(--text-dim)" data-track="1">0:00</span>
+              <span class="duration text-xs" style="color:var(--text-dim)" data-track="1">0:00</span>
             </div>
             <audio preload="metadata" data-track="1">
               <source src="/mp3/Harlem X 2nilame - La Magie.mp3" type="audio/mpeg" />
@@ -630,8 +712,8 @@
                 <svg class="pause-icon hidden" viewBox="0 0 24 24"><rect x="5" y="3" width="5" height="18" rx="1.5"/><rect x="14" y="3" width="5" height="18" rx="1.5"/></svg>
               </div>
               <div class="min-w-0 flex-1">
-                <h3 class="font-anton text-lg text-white truncate">FREESTYLE 2</h3>
-                <p class="text-gray-500 text-xs tracking-wider">MOKTAR</p>
+                <h3 class="font-anton text-lg truncate" style="color:var(--text)">FREESTYLE 2</h3>
+                <p class="text-xs tracking-wider" style="color:var(--text-dim)">MOKTAR</p>
               </div>
             </div>
             <div class="wave-bars hidden" data-wave="2">
@@ -642,8 +724,8 @@
               <div class="progress-thumb" data-track="2"></div>
             </div>
             <div class="flex justify-between mt-2">
-              <span class="text-gray-600 text-xs current-time" data-track="2">0:00</span>
-              <span class="text-gray-600 text-xs duration" data-track="2">0:00</span>
+              <span class="current-time text-xs" style="color:var(--text-dim)" data-track="2">0:00</span>
+              <span class="duration text-xs" style="color:var(--text-dim)" data-track="2">0:00</span>
             </div>
             <audio preload="metadata" data-track="2">
               <source src="/mp3/MOKTAR _ FREESTYLE2 ILS ME PARLENT DE QUOI.mp3" type="audio/mpeg" />
@@ -659,19 +741,19 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div class="fade-in stagger-1">
             <p class="font-anton text-4xl sm:text-5xl text-black">50+</p>
-            <p class="text-black/70 text-sm font-semibold mt-1 tracking-wide">TITRES PRODUITS</p>
+            <p class="text-black/70 text-sm font-semibold mt-1 tracking-wide" data-i18n="stats-1">TITRES PRODUITS</p>
           </div>
           <div class="fade-in stagger-2">
             <p class="font-anton text-4xl sm:text-5xl text-black">30+</p>
-            <p class="text-black/70 text-sm font-semibold mt-1 tracking-wide">CLIPS TOURNÉS</p>
+            <p class="text-black/70 text-sm font-semibold mt-1 tracking-wide" data-i18n="stats-2">CLIPS TOURNÉS</p>
           </div>
           <div class="fade-in stagger-3">
             <p class="font-anton text-4xl sm:text-5xl text-black">15+</p>
-            <p class="text-black/70 text-sm font-semibold mt-1 tracking-wide">ARTISTES ACCOMPAGNÉS</p>
+            <p class="text-black/70 text-sm font-semibold mt-1 tracking-wide" data-i18n="stats-3">ARTISTES ACCOMPAGNÉS</p>
           </div>
           <div class="fade-in stagger-4">
             <p class="font-anton text-4xl sm:text-5xl text-black">5J</p>
-            <p class="text-black/70 text-sm font-semibold mt-1 tracking-wide">DÉLAI DE LIVRAISON</p>
+            <p class="text-black/70 text-sm font-semibold mt-1 tracking-wide" data-i18n="stats-4">DÉLAI DE LIVRAISON</p>
           </div>
         </div>
       </div>
@@ -681,84 +763,84 @@
     <section id="formules" class="py-24 border-t border-gray-box/50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 fade-in">
-          <span class="text-yellow font-anton text-sm tracking-[4px]">TARIFS</span>
-          <h2 class="font-anton text-4xl sm:text-5xl mt-3">UNE FORMULE POUR <span class="text-yellow">CHAQUE AMBITION</span></h2>
+          <span class="text-yellow font-anton text-sm tracking-[4px]" data-i18n="plans-label">TARIFS</span>
+          <h2 class="font-anton text-4xl sm:text-5xl mt-3"><span data-i18n="plans-title">UNE FORMULE POUR</span> <span class="text-yellow" data-i18n="plans-title-highlight">CHAQUE AMBITION</span></h2>
           <div class="w-16 h-1 bg-yellow mx-auto mt-6"></div>
-          <p class="text-gray-400 mt-4 max-w-lg mx-auto">Sans engagement. Tu peux résilier quand tu veux.</p>
+          <p class="mt-4 max-w-lg mx-auto" style="color:var(--text-dim)" data-i18n="plans-sub">Sans engagement. Tu peux résilier quand tu veux.</p>
         </div>
         <div class="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
           <!-- Formule 150k -->
           <div class="pricing-card bg-gray-box p-8 fade-in-left stagger-1">
             <div class="text-center mb-8">
-              <span class="text-gray-500 text-sm font-medium tracking-wider">FORMULE</span>
-              <h3 class="font-anton text-4xl text-white mt-1">150K</h3>
+              <span class="text-sm font-medium tracking-wider" style="color:var(--text-dim)" data-i18n="plan-label">FORMULE</span>
+              <h3 class="font-anton text-4xl mt-1" style="color:var(--text)">150K</h3>
               <div class="mt-3">
                 <span class="text-4xl font-bold text-yellow">150 000</span>
-                <span class="text-gray-400 ml-1">FCFA/mois</span>
+                <span class="ml-1" style="color:var(--text-dim)">FCFA/mois</span>
               </div>
             </div>
             <ul class="space-y-4 mb-8">
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-yellow mt-0.5 shrink-0 feature-check" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="text-gray-300 text-sm">1 beat exclusif par mois</span>
+                <span class="text-sm" style="color:var(--text-body)" data-i18n="plan-150-1">1 beat exclusif par mois</span>
               </li>
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-yellow mt-0.5 shrink-0 feature-check" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="text-gray-300 text-sm">Son mixé et masterisé</span>
+                <span class="text-sm" style="color:var(--text-body)" data-i18n="plan-150-2">Son mixé et masterisé</span>
               </li>
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-yellow mt-0.5 shrink-0 feature-check" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="text-gray-300 text-sm">1 street clip (vertical)</span>
+                <span class="text-sm" style="color:var(--text-body)" data-i18n="plan-150-3">1 street clip (vertical)</span>
               </li>
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-yellow mt-0.5 shrink-0 feature-check" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="text-gray-300 text-sm">1 shooting photo</span>
+                <span class="text-sm" style="color:var(--text-body)" data-i18n="plan-150-4">1 shooting photo</span>
               </li>
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-yellow mt-0.5 shrink-0 feature-check" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="text-gray-300 text-sm">Distribution digitale</span>
+                <span class="text-sm" style="color:var(--text-body)" data-i18n="plan-150-5">Distribution digitale</span>
               </li>
             </ul>
-            <a href="#contact" class="btn-outline no-underline w-full py-3 text-center block cursor-pointer">CHOISIR 150K</a>
+            <a href="#contact" class="btn-outline no-underline w-full py-3 text-center block cursor-pointer" data-i18n="plan-150-cta">CHOISIR 150K</a>
           </div>
 
           <!-- Formule 200k -->
           <div class="pricing-card featured bg-gray-box p-8 fade-in-right stagger-2">
             <div class="text-center mb-8">
-              <span class="text-gray-500 text-sm font-medium tracking-wider">FORMULE</span>
-              <h3 class="font-anton text-4xl text-white mt-1">200K</h3>
+              <span class="text-sm font-medium tracking-wider" style="color:var(--text-dim)" data-i18n="plan-label">FORMULE</span>
+              <h3 class="font-anton text-4xl mt-1" style="color:var(--text)">200K</h3>
               <div class="mt-3">
                 <span class="text-4xl font-bold text-yellow">200 000</span>
-                <span class="text-gray-400 ml-1">FCFA/mois</span>
+                <span class="ml-1" style="color:var(--text-dim)">FCFA/mois</span>
               </div>
             </div>
             <ul class="space-y-4 mb-8">
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-yellow mt-0.5 shrink-0 feature-check" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="text-gray-300 text-sm">Tout de la formule 150K</span>
+                <span class="text-sm" style="color:var(--text-body)" data-i18n="plan-200-1">Tout de la formule 150K</span>
               </li>
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-yellow mt-0.5 shrink-0 feature-check" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="text-gray-300 text-sm">Gestion des réseaux sociaux</span>
+                <span class="text-sm" style="color:var(--text-body)" data-i18n="plan-200-2">Gestion des réseaux sociaux</span>
               </li>
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-yellow mt-0.5 shrink-0 feature-check" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="text-gray-300 text-sm">Boost publicitaire (Meta/Insta)</span>
+                <span class="text-sm" style="color:var(--text-body)" data-i18n="plan-200-3">Boost publicitaire (Meta/Insta)</span>
               </li>
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-yellow mt-0.5 shrink-0 feature-check" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="text-gray-300 text-sm">Site web personnel</span>
+                <span class="text-sm" style="color:var(--text-body)" data-i18n="plan-200-4">Site web personnel</span>
               </li>
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-yellow mt-0.5 shrink-0 feature-check" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="text-gray-300 text-sm">Priorité absolue</span>
+                <span class="text-sm" style="color:var(--text-body)" data-i18n="plan-200-5">Priorité absolue</span>
               </li>
               <li class="flex items-start gap-3">
                 <svg class="w-5 h-5 text-yellow mt-0.5 shrink-0 feature-check" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-                <span class="text-gray-300 text-sm">Coaching carrière</span>
+                <span class="text-sm" style="color:var(--text-body)" data-i18n="plan-200-6">Coaching carrière</span>
               </li>
             </ul>
-            <a href="#contact" class="btn-yellow no-underline w-full py-3 text-center block cursor-pointer">CHOISIR 200K</a>
+            <a href="#contact" class="btn-yellow no-underline w-full py-3 text-center block cursor-pointer" data-i18n="plan-200-cta">CHOISIR 200K</a>
           </div>
         </div>
       </div>
@@ -768,62 +850,62 @@
     <section id="faq" class="py-24 border-t border-gray-box/50">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 fade-in">
-          <span class="text-yellow font-anton text-sm tracking-[4px]">QUESTIONS</span>
-          <h2 class="font-anton text-4xl sm:text-5xl mt-3">ON RÉPOND À <span class="text-yellow">TOUT</span></h2>
+          <span class="text-yellow font-anton text-sm tracking-[4px]" data-i18n="faq-label">QUESTIONS</span>
+          <h2 class="font-anton text-4xl sm:text-5xl mt-3"><span data-i18n="faq-title">ON RÉPOND À</span> <span class="text-yellow" data-i18n="faq-title-highlight">TOUT</span></h2>
           <div class="w-16 h-1 bg-yellow mx-auto mt-6"></div>
         </div>
         <div class="space-y-4 fade-in">
           <div class="bg-gray-box p-6">
             <div class="faq-q flex justify-between items-center" data-index="0">
-              <span class="font-semibold text-base">C'est quoi exactement Fast Food Agency ?</span>
+              <span class="font-semibold text-base" data-i18n="faq-q1">C'est quoi exactement Fast Food Agency ?</span>
               <svg class="w-5 h-5 text-yellow transition-transform duration-300 shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
             </div>
-            <div class="faq-a text-gray-400 text-sm leading-relaxed">
+            <div class="faq-a text-sm leading-relaxed" style="color:var(--text-body)" data-i18n="faq-a1">
               Une agence musicale par abonnement. On te fournit tout ce qu'il faut pour sortir un son chaque mois : beat, mix, clip, shooting, promo. Un seul paiement, zéro prise de tête.
             </div>
           </div>
           <div class="bg-gray-box p-6">
             <div class="faq-q flex justify-between items-center" data-index="1">
-              <span class="font-semibold text-base">Est-ce qu'il y a un engagement ?</span>
+              <span class="font-semibold text-base" data-i18n="faq-q2">Est-ce qu'il y a un engagement ?</span>
               <svg class="w-5 h-5 text-yellow transition-transform duration-300 shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
             </div>
-            <div class="faq-a text-gray-400 text-sm leading-relaxed">
+            <div class="faq-a text-sm leading-relaxed" style="color:var(--text-body)" data-i18n="faq-a2">
               Aucun. Tu peux résilier quand tu veux, sans frais. On préfère te prouver notre valeur chaque mois plutôt que de t'enfermer dans un contrat.
             </div>
           </div>
           <div class="bg-gray-box p-6">
             <div class="faq-q flex justify-between items-center" data-index="2">
-              <span class="font-semibold text-base">Est-ce que je garde mes droits ?</span>
+              <span class="font-semibold text-base" data-i18n="faq-q3">Est-ce que je garde mes droits ?</span>
               <svg class="w-5 h-5 text-yellow transition-transform duration-300 shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
             </div>
-            <div class="faq-a text-gray-400 text-sm leading-relaxed">
+            <div class="faq-a text-sm leading-relaxed" style="color:var(--text-body)" data-i18n="faq-a3">
               Oui à 100%. Tu gardes tous tes droits sur ta musique, tes visuels et ton contenu. On est un service, pas un label.
             </div>
           </div>
           <div class="bg-gray-box p-6">
             <div class="faq-q flex justify-between items-center" data-index="3">
-              <span class="font-semibold text-base">Comment ça se passe concrètement ?</span>
+              <span class="font-semibold text-base" data-i18n="faq-q4">Comment ça se passe concrètement ?</span>
               <svg class="w-5 h-5 text-yellow transition-transform duration-300 shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
             </div>
-            <div class="faq-a text-gray-400 text-sm leading-relaxed">
+            <div class="faq-a text-sm leading-relaxed" style="color:var(--text-body)" data-i18n="faq-a4">
               Tu t'abonnes, on échange sur ce que tu veux, on te produit un beat sur mesure, tu poses, on mixe, on tourne le clip, on te livre tout. Compte 5 jours ouvrés.
             </div>
           </div>
           <div class="bg-gray-box p-6">
             <div class="faq-q flex justify-between items-center" data-index="4">
-              <span class="font-semibold text-base">Je peux passer d'une formule à l'autre ?</span>
+              <span class="font-semibold text-base" data-i18n="faq-q5">Je peux passer d'une formule à l'autre ?</span>
               <svg class="w-5 h-5 text-yellow transition-transform duration-300 shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
             </div>
-            <div class="faq-a text-gray-400 text-sm leading-relaxed">
+            <div class="faq-a text-sm leading-relaxed" style="color:var(--text-body)" data-i18n="faq-a5">
               Oui, à tout moment. Tu peux upgrader de 150K à 200K (ou l'inverse) en un message. L'ajustement se fait au mois suivant.
             </div>
           </div>
           <div class="bg-gray-box p-6">
             <div class="faq-q flex justify-between items-center" data-index="5">
-              <span class="font-semibold text-base">Comment je paie ?</span>
+              <span class="font-semibold text-base" data-i18n="faq-q6">Comment je paie ?</span>
               <svg class="w-5 h-5 text-yellow transition-transform duration-300 shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
             </div>
-            <div class="faq-a text-gray-400 text-sm leading-relaxed">
+            <div class="faq-a text-sm leading-relaxed" style="color:var(--text-body)" data-i18n="faq-a6">
               Par mobile money (MTN, Orange, Moov) ou virement bancaire. Paiement sécurisé, reçu fourni à chaque transaction.
             </div>
           </div>
@@ -835,10 +917,10 @@
     <section id="contact" class="py-24 border-t border-gray-box/50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 fade-in">
-          <span class="text-yellow font-anton text-sm tracking-[4px]">CONTACT</span>
-          <h2 class="font-anton text-4xl sm:text-5xl mt-3">PRÊT À <span class="text-yellow">PERCER</span> ?</h2>
+          <span class="text-yellow font-anton text-sm tracking-[4px]" data-i18n="contact-label">CONTACT</span>
+          <h2 class="font-anton text-4xl sm:text-5xl mt-3"><span data-i18n="contact-title">PRÊT À</span> <span class="text-yellow" data-i18n="contact-title-highlight">PERCER</span> ?</h2>
           <div class="w-16 h-1 bg-yellow mx-auto mt-6"></div>
-          <p class="text-gray-400 mt-4 max-w-lg mx-auto">Un message et on s'occupe du reste.</p>
+          <p class="mt-4 max-w-lg mx-auto" style="color:var(--text-dim)" data-i18n="contact-sub">Un message et on s'occupe du reste.</p>
         </div>
         <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
           <div class="fade-in-left stagger-1">
@@ -849,9 +931,9 @@
                     <svg class="w-8 h-8 text-[#25D366]" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                   </div>
                   <div>
-                    <p class="text-sm text-gray-400">Contact direct</p>
-                    <p class="text-white font-bold text-lg">WhatsApp Direct</p>
-                    <p class="text-gray-500 text-xs mt-1">Réponse sous 30 min</p>
+                    <p class="text-sm" style="color:var(--text-dim)" data-i18n="contact-wa-label">Contact direct</p>
+                    <p class="font-bold text-lg" style="color:var(--text)">WhatsApp Direct</p>
+                    <p class="text-xs mt-1" style="color:var(--text-dim)" data-i18n="contact-wa-sub">Réponse sous 30 min</p>
                   </div>
                 </div>
               </a>
@@ -865,9 +947,9 @@
                     <svg class="w-8 h-8 text-yellow" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                   </div>
                   <div>
-                    <p class="text-sm text-gray-400">Suis-nous</p>
-                    <p class="text-white font-bold text-lg">@fast.foodagency</p>
-                    <p class="text-gray-500 text-xs mt-1">Sur Instagram</p>
+                    <p class="text-sm" style="color:var(--text-dim)" data-i18n="contact-ig-label">Suis-nous</p>
+                    <p class="font-bold text-lg" style="color:var(--text)">@fast.foodagency</p>
+                    <p class="text-xs mt-1" style="color:var(--text-dim)" data-i18n="contact-ig-sub">Sur Instagram</p>
                   </div>
                 </div>
               </a>
@@ -883,16 +965,16 @@
         <div class="flex flex-col md:flex-row justify-between items-center gap-8">
           <div>
             <span class="font-anton text-xl tracking-wider text-yellow">FAST FOOD AGENCY</span>
-            <p class="text-gray-500 text-sm mt-2">La musique rapide. Sans bullshit.</p>
+            <p class="text-sm mt-2" style="color:var(--text-dim)" data-i18n="footer-tagline">La musique rapide. Sans bullshit.</p>
           </div>
           <div class="flex items-center gap-6">
-            <a href="https://www.instagram.com/fast.foodagency/" target="_blank" class="text-gray-500 hover:text-yellow transition-colors duration-200" aria-label="Instagram">
+            <a href="https://www.instagram.com/fast.foodagency/" target="_blank" class="transition-colors duration-200" style="color:var(--text-dim)" aria-label="Instagram">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             </a>
           </div>
         </div>
         <div class="border-t border-gray-box/50 mt-8 pt-8 text-center">
-          <p class="text-gray-600 text-xs">&copy; 2025 Fast Food Agency. Tous droits réservés.</p>
+          <p class="text-xs" style="color:var(--text-dim)">&copy; 2025 Fast Food Agency. <span data-i18n="footer-rights">Tous droits réservés.</span></p>
         </div>
       </div>
     </footer>
@@ -903,35 +985,254 @@
     </a>
 
     <script>
+      const i18n = {
+        fr: {
+          'nav-home': 'Accueil',
+          'nav-plans': 'Formules',
+          'nav-realisations': 'Réalisations',
+          'nav-faq': 'FAQ',
+          'nav-contact': 'Contact',
+          'nav-cta': 'JE RÉSERVE',
+          'hero-badge': 'ABONNEMENT MENSUEL — SANS ENGAGEMENT',
+          'hero-line1': 'TON SON.',
+          'hero-line2': 'TON CLIP.',
+          'hero-line3': 'TA PROMO.',
+          'hero-desc': 'Un abonnement unique pour les artistes qui veulent percer. Beat, clip, shooting, promo —',
+          'hero-desc-highlight': "on s'occupe de tout.",
+          'hero-cta1': 'JE RÉSERVE MON PACK →',
+          'hero-cta2': 'CONTACTE-NOUS',
+          'marquee-web': 'SITE WEB',
+          'why-label': 'POURQUOI NOUS',
+          'why-title': 'DES ARTISTES QUI',
+          'why-title-highlight': 'ONT PERCÉ',
+          'why-1-title': "D'ANCIENS ARTISTES\nAUX COMMANDES",
+          'why-1-desc': "Avant d'être une agence, on était à votre place. On connaît vos galères, vos doutes, votre ambition. Pas de blabla de commercial — juste des artistes qui ont réussi et qui vous tendent la main.",
+          'why-2-title': 'UN RÉSEAU\nD\'ARTISTES',
+          'why-2-desc': "On ne travaille pas seuls. Notre force, c'est un réseau d'artistes, beatmakers, réalisateurs, ingés son — tous issus du milieu. Chaque projet profite de l'expérience collective de ceux qui vivent la musique.",
+          'why-3-title': 'DES ARTISTES POUR\nDES ARTISTES',
+          'why-3-desc': "On ne vous voit pas comme un client, mais comme un pair. Notre mission : vous donner les clés qu'on aurait aimé avoir à vos débuts. Parce qu'on sait ce que ça fait d'être seul dans le game.",
+          'team-label': "L'ÉQUIPE",
+          'team-title': 'CEUX QUI',
+          'team-title-highlight': 'ASSURENT',
+          'team-1-role': 'CO-FONDATEUR · ARTISTE · BEATMAKER',
+          'team-1-desc': 'Musicien et co-fondateur de FastFoodMusic. Il connaît le game sur le bout des doigts — du studio à la scène.',
+          'team-2-role': 'CO-FONDATEUR · DÉV · VIDÉASTE',
+          'team-2-desc': 'Développeur, vidéaste, motion designer. Tout ce qui sort de nos mains passe par les siennes.',
+          'team-3-role': 'INGÉNIEUR DU SON',
+          'team-3-desc': "Expert en mixage et sound design, il sculpte l'identité sonore de chaque projet avec une précision d'orfèvre. Du studio à la scène, le son est entre de bonnes mains.",
+          'prod-label': 'RÉALISATIONS',
+          'prod-title': 'NOS',
+          'prod-title-highlight': 'PRODUCTIONS',
+          'prod-sub': 'Clique sur un titre pour écouter',
+          'stats-1': 'TITRES PRODUITS',
+          'stats-2': 'CLIPS TOURNÉS',
+          'stats-3': 'ARTISTES ACCOMPAGNÉS',
+          'stats-4': 'DÉLAI DE LIVRAISON',
+          'plans-label': 'TARIFS',
+          'plans-title': 'UNE FORMULE POUR',
+          'plans-title-highlight': 'CHAQUE AMBITION',
+          'plans-sub': 'Sans engagement. Tu peux résilier quand tu veux.',
+          'plan-label': 'FORMULE',
+          'plan-featured': 'POPULAIRE',
+          'plan-150-1': '1 beat exclusif par mois',
+          'plan-150-2': 'Son mixé et masterisé',
+          'plan-150-3': '1 street clip (vertical)',
+          'plan-150-4': '1 shooting photo',
+          'plan-150-5': 'Distribution digitale',
+          'plan-150-cta': 'CHOISIR 150K',
+          'plan-200-1': 'Tout de la formule 150K',
+          'plan-200-2': 'Gestion des réseaux sociaux',
+          'plan-200-3': 'Boost publicitaire (Meta/Insta)',
+          'plan-200-4': 'Site web personnel',
+          'plan-200-5': 'Priorité absolue',
+          'plan-200-6': 'Coaching carrière',
+          'plan-200-cta': 'CHOISIR 200K',
+          'faq-label': 'QUESTIONS',
+          'faq-title': 'ON RÉPOND À',
+          'faq-title-highlight': 'TOUT',
+          'faq-q1': "C'est quoi exactement Fast Food Agency ?",
+          'faq-a1': "Une agence musicale par abonnement. On te fournit tout ce qu'il faut pour sortir un son chaque mois : beat, mix, clip, shooting, promo. Un seul paiement, zéro prise de tête.",
+          'faq-q2': "Est-ce qu'il y a un engagement ?",
+          'faq-a2': "Aucun. Tu peux résilier quand tu veux, sans frais. On préfère te prouver notre valeur chaque mois plutôt que de t'enfermer dans un contrat.",
+          'faq-q3': 'Est-ce que je garde mes droits ?',
+          'faq-a3': "Oui à 100%. Tu gardes tous tes droits sur ta musique, tes visuels et ton contenu. On est un service, pas un label.",
+          'faq-q4': 'Comment ça se passe concrètement ?',
+          'faq-a4': "Tu t'abonnes, on échange sur ce que tu veux, on te produit un beat sur mesure, tu poses, on mixe, on tourne le clip, on te livre tout. Compte 5 jours ouvrés.",
+          'faq-q5': "Je peux passer d'une formule à l'autre ?",
+          'faq-a5': "Oui, à tout moment. Tu peux upgrader de 150K à 200K (ou l'inverse) en un message. L'ajustement se fait au mois suivant.",
+          'faq-q6': 'Comment je paie ?',
+          'faq-a6': 'Par mobile money (MTN, Orange, Moov) ou virement bancaire. Paiement sécurisé, reçu fourni à chaque transaction.',
+          'contact-label': 'CONTACT',
+          'contact-title': 'PRÊT À',
+          'contact-title-highlight': 'PERCER',
+          'contact-sub': 'Un message et on s\'occupe du reste.',
+          'contact-wa-label': 'Contact direct',
+          'contact-wa-sub': 'Réponse sous 30 min',
+          'contact-ig-label': 'Suis-nous',
+          'contact-ig-sub': 'Sur Instagram',
+          'footer-tagline': 'La musique rapide. Sans bullshit.',
+          'footer-rights': 'Tous droits réservés.',
+        },
+        en: {
+          'nav-home': 'Home',
+          'nav-plans': 'Plans',
+          'nav-realisations': 'Productions',
+          'nav-faq': 'FAQ',
+          'nav-contact': 'Contact',
+          'nav-cta': 'BOOK NOW',
+          'hero-badge': 'MONTHLY SUBSCRIPTION — NO COMMITMENT',
+          'hero-line1': 'YOUR SOUND.',
+          'hero-line2': 'YOUR VIDEO.',
+          'hero-line3': 'YOUR PROMO.',
+          'hero-desc': 'A unique subscription for artists ready to break through. Beat, video, shooting, promo —',
+          'hero-desc-highlight': "we've got it all covered.",
+          'hero-cta1': 'BOOK MY PACK →',
+          'hero-cta2': 'CONTACT US',
+          'marquee-web': 'WEBSITE',
+          'why-label': 'WHY US',
+          'why-title': 'ARTISTS WHO',
+          'why-title-highlight': 'MADE IT',
+          'why-1-title': 'FORMER ARTISTS\nIN CHARGE',
+          'why-1-desc': 'Before we were an agency, we were in your shoes. We know your struggles, your doubts, your ambition. No sales pitch — just artists who made it, reaching out a hand.',
+          'why-2-title': 'AN ARTISTS\nNETWORK',
+          'why-2-desc': "We don't work alone. Our strength is a network of artists, beatmakers, directors, sound engineers — all from the scene. Every project benefits from the collective experience of those who live music.",
+          'why-3-title': 'BY ARTISTS\nFOR ARTISTS',
+          'why-3-desc': "We don't see you as a client, but as a peer. Our mission: to give you the keys we wish we'd had when we started. Because we know what it's like to be alone in the game.",
+          'team-label': 'THE TEAM',
+          'team-title': 'THE ONES WHO',
+          'team-title-highlight': 'DELIVER',
+          'team-1-role': 'CO-FOUNDER · ARTIST · BEATMAKER',
+          'team-1-desc': 'Musician and co-founder of FastFoodMusic. He knows the game inside out — from studio to stage.',
+          'team-2-role': 'CO-FOUNDER · DEV · VIDEOGRAPHER',
+          'team-2-desc': 'Developer, videographer, motion designer. Everything that leaves our hands passes through his.',
+          'team-3-role': 'SOUND ENGINEER',
+          'team-3-desc': 'Mixing and sound design expert, he sculpts the sonic identity of every project with precision. From studio to stage, your sound is in good hands.',
+          'prod-label': 'PRODUCTIONS',
+          'prod-title': 'OUR',
+          'prod-title-highlight': 'TRACKS',
+          'prod-sub': 'Click a title to play',
+          'stats-1': 'TRACKS PRODUCED',
+          'stats-2': 'VIDEOS SHOT',
+          'stats-3': 'ARTISTS SUPPORTED',
+          'stats-4': 'DELIVERY TIME',
+          'plans-label': 'PRICING',
+          'plans-title': 'A PLAN FOR',
+          'plans-title-highlight': 'EVERY AMBITION',
+          'plans-sub': 'No commitment. Cancel anytime.',
+          'plan-label': 'PLAN',
+          'plan-featured': 'POPULAR',
+          'plan-150-1': '1 exclusive beat per month',
+          'plan-150-2': 'Mixed & mastered track',
+          'plan-150-3': '1 street clip (vertical)',
+          'plan-150-4': '1 photo shoot',
+          'plan-150-5': 'Digital distribution',
+          'plan-150-cta': 'CHOOSE 150K',
+          'plan-200-1': 'Everything in 150K',
+          'plan-200-2': 'Social media management',
+          'plan-200-3': 'Ad boost (Meta/Insta)',
+          'plan-200-4': 'Personal website',
+          'plan-200-5': 'Priority support',
+          'plan-200-6': 'Career coaching',
+          'plan-200-cta': 'CHOOSE 200K',
+          'faq-label': 'QUESTIONS',
+          'faq-title': 'WE ANSWER',
+          'faq-title-highlight': 'EVERYTHING',
+          'faq-q1': "What exactly is Fast Food Agency?",
+          'faq-a1': "A music subscription agency. We provide everything you need to release a track every month: beat, mix, video, shooting, promo. One payment, zero hassle.",
+          'faq-q2': "Is there a commitment?",
+          'faq-a2': "None. Cancel anytime, no fees. We'd rather prove our value every month than lock you into a contract.",
+          'faq-q3': 'Do I keep my rights?',
+          'faq-a3': "100% yes. You keep all rights to your music, visuals, and content. We're a service, not a label.",
+          'faq-q4': "How does it actually work?",
+          'faq-a4': "You subscribe, we discuss your vision, we produce a custom beat, you record, we mix, we shoot the video, we deliver everything. Allow 5 business days.",
+          'faq-q5': "Can I switch plans?",
+          'faq-a5': "Yes, anytime. Upgrade from 150K to 200K (or back) in one message. The change takes effect the following month.",
+          'faq-q6': 'How do I pay?',
+          'faq-a6': 'By mobile money (MTN, Orange, Moov) or bank transfer. Secure payment, receipt provided for every transaction.',
+          'contact-label': 'CONTACT',
+          'contact-title': 'READY TO',
+          'contact-title-highlight': 'BREAK THROUGH',
+          'contact-sub': 'One message and we handle the rest.',
+          'contact-wa-label': 'Direct contact',
+          'contact-wa-sub': 'Reply within 30 min',
+          'contact-ig-label': 'Follow us',
+          'contact-ig-sub': 'On Instagram',
+          'footer-tagline': 'Fast music. No bullshit.',
+          'footer-rights': 'All rights reserved.',
+        }
+      };
+
       document.addEventListener('DOMContentLoaded', () => {
-        // Mobile menu toggle
+        // ---- Theme ----
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.body.setAttribute('data-theme', savedTheme);
+        updateThemeIcons(savedTheme);
+
+        function updateThemeIcons(theme) {
+          document.querySelectorAll('.sun-icon').forEach(el => el.classList.toggle('hidden', theme === 'light'));
+          document.querySelectorAll('.moon-icon').forEach(el => el.classList.toggle('hidden', theme === 'dark'));
+        }
+
+        function toggleTheme() {
+          const current = document.body.getAttribute('data-theme');
+          const next = current === 'dark' ? 'light' : 'dark';
+          document.body.setAttribute('data-theme', next);
+          localStorage.setItem('theme', next);
+          updateThemeIcons(next);
+        }
+
+        document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+        document.getElementById('theme-toggle-mobile')?.addEventListener('click', toggleTheme);
+
+        // ---- Language ----
+        let currentLang = localStorage.getItem('lang') || 'fr';
+
+        function applyLang(lang) {
+          currentLang = lang;
+          localStorage.setItem('lang', lang);
+          document.documentElement.setAttribute('lang', lang);
+          document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.dataset.i18n;
+            if (i18n[lang] && i18n[lang][key]) {
+              el.textContent = i18n[lang][key];
+            }
+          });
+          document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+          });
+        }
+
+        applyLang(currentLang);
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            applyLang(btn.dataset.lang);
+          });
+        });
+
+        // ---- Mobile menu ----
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         menuBtn.addEventListener('click', () => {
           mobileMenu.classList.toggle('hidden');
         });
-
         mobileMenu.querySelectorAll('a').forEach(link => {
           link.addEventListener('click', () => {
             mobileMenu.classList.add('hidden');
           });
         });
 
-        // FAQ Accordion
+        // ---- FAQ Accordion ----
         document.querySelectorAll('.faq-q').forEach(q => {
           q.addEventListener('click', () => {
             const answer = q.nextElementSibling;
             const icon = q.querySelector('svg');
             const isOpen = answer.classList.contains('open');
-
-            document.querySelectorAll('.faq-a.open').forEach(a => {
-              a.classList.remove('open');
-            });
+            document.querySelectorAll('.faq-a.open').forEach(a => a.classList.remove('open'));
             document.querySelectorAll('.faq-q.active').forEach(q => {
               q.classList.remove('active');
               q.querySelector('svg').style.transform = 'rotate(0deg)';
             });
-
             if (!isOpen) {
               answer.classList.add('open');
               q.classList.add('active');
@@ -940,20 +1241,15 @@
           });
         });
 
-        // Scroll fade-in animations
+        // ---- Scroll fade-in ----
         const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('visible');
-            }
+            if (entry.isIntersecting) entry.target.classList.add('visible');
           });
         }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => observer.observe(el));
 
-        document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => {
-          observer.observe(el);
-        });
-
-        // Navbar border on scroll
+        // ---- Navbar border ----
         window.addEventListener('scroll', () => {
           const navbar = document.getElementById('navbar');
           navbar.style.borderBottom = window.scrollY > 80
@@ -961,11 +1257,9 @@
             : '1px solid rgba(245, 197, 24, 0.1)';
         });
 
-        // Audio player
+        // ---- Audio player ----
         const audios = [];
-        const tracks = document.querySelectorAll('[data-track]');
         const trackCount = document.querySelectorAll('.audio-card').length;
-
         for (let i = 0; i < trackCount; i++) {
           const audio = document.querySelector(`audio[data-track="${i}"]`);
           if (audio) audios[i] = audio;
@@ -1012,7 +1306,6 @@
             const btn = document.querySelector(`.play-btn[data-track="${idx}"]`);
             const card = document.querySelector(`.audio-card[data-track="${idx}"]`);
             const wave = document.querySelector(`[data-wave="${idx}"]`);
-
             if (audio.paused) {
               stopAll(idx);
               audio.play();
@@ -1043,12 +1336,10 @@
         for (let i = 0; i < audios.length; i++) {
           const audio = audios[i];
           if (!audio) continue;
-
           audio.addEventListener('loadedmetadata', () => {
             const d = document.querySelector(`.duration[data-track="${i}"]`);
             if (d) d.textContent = formatTime(audio.duration);
           });
-
           audio.addEventListener('timeupdate', () => {
             const fill = document.querySelector(`.progress-fill[data-track="${i}"]`);
             const thumb = document.querySelector(`.progress-thumb[data-track="${i}"]`);
@@ -1058,7 +1349,6 @@
             if (thumb) thumb.style.left = pct + '%';
             if (current) current.textContent = formatTime(audio.currentTime);
           });
-
           audio.addEventListener('ended', () => {
             const btn = document.querySelector(`.play-btn[data-track="${i}"]`);
             const card = document.querySelector(`.audio-card[data-track="${i}"]`);
@@ -1079,16 +1369,13 @@
             if (thumb) thumb.style.left = '0%';
             if (current) current.textContent = '0:00';
           });
-
           audio.addEventListener('error', () => {
             const d = document.querySelector(`.duration[data-track="${i}"]`);
             if (d) d.textContent = '--:--';
           });
-
-          // Click on progress bar to seek
-          const track = document.querySelector(`.progress-track[data-track="${i}"]`);
-          if (track) {
-            track.addEventListener('click', function(e) {
+          const trackEl = document.querySelector(`.progress-track[data-track="${i}"]`);
+          if (trackEl) {
+            trackEl.addEventListener('click', function(e) {
               const rect = this.getBoundingClientRect();
               const pct = (e.clientX - rect.left) / rect.width;
               audio.currentTime = pct * audio.duration;
