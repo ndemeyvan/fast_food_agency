@@ -310,10 +310,6 @@
         width: 22px;
         height: 22px;
         fill: var(--black);
-        margin-left: 2px;
-      }
-      .play-btn.playing svg {
-        margin-left: 0;
       }
       .progress-track {
         height: 4px;
@@ -578,7 +574,8 @@
           <div class="audio-card bg-gray-box p-6 fade-in stagger-1" data-track="0">
             <div class="flex items-center gap-4 mb-4">
               <div class="play-btn" data-track="0">
-                <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+                <svg class="play-icon" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+                <svg class="pause-icon hidden" viewBox="0 0 24 24"><rect x="5" y="3" width="5" height="18" rx="1.5"/><rect x="14" y="3" width="5" height="18" rx="1.5"/></svg>
               </div>
               <div class="min-w-0 flex-1">
                 <h3 class="font-anton text-lg text-white truncate">PATATE SECA</h3>
@@ -603,7 +600,8 @@
           <div class="audio-card bg-gray-box p-6 fade-in stagger-2" data-track="1">
             <div class="flex items-center gap-4 mb-4">
               <div class="play-btn" data-track="1">
-                <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+                <svg class="play-icon" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+                <svg class="pause-icon hidden" viewBox="0 0 24 24"><rect x="5" y="3" width="5" height="18" rx="1.5"/><rect x="14" y="3" width="5" height="18" rx="1.5"/></svg>
               </div>
               <div class="min-w-0 flex-1">
                 <h3 class="font-anton text-lg text-white truncate">LA MAGIE</h3>
@@ -628,7 +626,8 @@
           <div class="audio-card bg-gray-box p-6 fade-in stagger-3" data-track="2">
             <div class="flex items-center gap-4 mb-4">
               <div class="play-btn" data-track="2">
-                <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+                <svg class="play-icon" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+                <svg class="pause-icon hidden" viewBox="0 0 24 24"><rect x="5" y="3" width="5" height="18" rx="1.5"/><rect x="14" y="3" width="5" height="18" rx="1.5"/></svg>
               </div>
               <div class="min-w-0 flex-1">
                 <h3 class="font-anton text-lg text-white truncate">FREESTYLE 2</h3>
@@ -987,7 +986,13 @@
             const btn = document.querySelector(`.play-btn[data-track="${i}"]`);
             const card = document.querySelector(`.audio-card[data-track="${i}"]`);
             const wave = document.querySelector(`[data-wave="${i}"]`);
-            if (btn) btn.classList.remove('playing');
+            if (btn) {
+              btn.classList.remove('playing');
+              const pi = btn.querySelector('.play-icon');
+              const pai = btn.querySelector('.pause-icon');
+              if (pi) pi.classList.remove('hidden');
+              if (pai) pai.classList.add('hidden');
+            }
             if (card) card.classList.remove('playing');
             if (wave) wave.classList.add('hidden');
             const fill = document.querySelector(`.progress-fill[data-track="${i}"]`);
@@ -1012,11 +1017,15 @@
               stopAll(idx);
               audio.play();
               btn.classList.add('playing');
+              btn.querySelector('.play-icon').classList.add('hidden');
+              btn.querySelector('.pause-icon').classList.remove('hidden');
               card.classList.add('playing');
               wave.classList.remove('hidden');
             } else {
               audio.pause();
               btn.classList.remove('playing');
+              btn.querySelector('.play-icon').classList.remove('hidden');
+              btn.querySelector('.pause-icon').classList.add('hidden');
               card.classList.remove('playing');
               wave.classList.add('hidden');
             }
@@ -1054,7 +1063,13 @@
             const btn = document.querySelector(`.play-btn[data-track="${i}"]`);
             const card = document.querySelector(`.audio-card[data-track="${i}"]`);
             const wave = document.querySelector(`[data-wave="${i}"]`);
-            if (btn) btn.classList.remove('playing');
+            if (btn) {
+              btn.classList.remove('playing');
+              const pi = btn.querySelector('.play-icon');
+              const pai = btn.querySelector('.pause-icon');
+              if (pi) pi.classList.remove('hidden');
+              if (pai) pai.classList.add('hidden');
+            }
             if (card) card.classList.remove('playing');
             if (wave) wave.classList.add('hidden');
             const fill = document.querySelector(`.progress-fill[data-track="${i}"]`);
