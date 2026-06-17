@@ -274,6 +274,99 @@
         background-size: 40px 40px;
       }
 
+      /* Audio player */
+      .audio-card {
+        transition: all 0.3s;
+        border: 1px solid var(--gray-light);
+      }
+      .audio-card:hover {
+        border-color: var(--yellow);
+        transform: translateY(-4px);
+      }
+      .audio-card.playing {
+        border-color: var(--yellow);
+        box-shadow: 0 0 30px rgba(245, 197, 24, 0.08);
+      }
+      .play-btn {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: var(--yellow);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.25s;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .play-btn:hover {
+        transform: scale(1.08);
+        box-shadow: 0 0 30px rgba(245, 197, 24, 0.3);
+      }
+      .play-btn.playing {
+        background: var(--red);
+      }
+      .play-btn svg {
+        width: 22px;
+        height: 22px;
+        fill: var(--black);
+        margin-left: 2px;
+      }
+      .play-btn.playing svg {
+        margin-left: 0;
+      }
+      .progress-track {
+        height: 4px;
+        background: #333;
+        border-radius: 2px;
+        cursor: pointer;
+        position: relative;
+      }
+      .progress-fill {
+        height: 100%;
+        background: var(--yellow);
+        border-radius: 2px;
+        width: 0%;
+        transition: width 0.1s linear;
+      }
+      .progress-thumb {
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--yellow);
+        left: 0%;
+        display: none;
+        transition: left 0.1s linear;
+      }
+      .progress-track:hover .progress-thumb {
+        display: block;
+      }
+      .wave-bars {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        height: 24px;
+      }
+      .wave-bars span {
+        width: 3px;
+        background: var(--yellow);
+        border-radius: 2px;
+        height: 4px;
+        animation: wave 0.8s ease-in-out infinite;
+      }
+      .wave-bars span:nth-child(1) { animation-delay: 0s; }
+      .wave-bars span:nth-child(2) { animation-delay: 0.15s; }
+      .wave-bars span:nth-child(3) { animation-delay: 0.3s; }
+      .wave-bars span:nth-child(4) { animation-delay: 0.45s; }
+      .wave-bars span:nth-child(5) { animation-delay: 0.6s; }
+      @keyframes wave {
+        0%, 100% { height: 4px; }
+        50% { height: 20px; }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         .fade-in, .fade-in-left, .fade-in-right { opacity: 1; transform: none; transition: none; }
         .marquee-track { animation: none; }
@@ -298,6 +391,7 @@
           <div class="hidden md:flex items-center gap-8">
             <a href="#accueil" class="text-sm font-medium text-gray-300 hover:text-yellow transition-colors duration-200 no-underline">Accueil</a>
             <a href="#formules" class="text-sm font-medium text-gray-300 hover:text-yellow transition-colors duration-200 no-underline">Formules</a>
+            <a href="#realisations" class="text-sm font-medium text-gray-300 hover:text-yellow transition-colors duration-200 no-underline">Réalisations</a>
             <a href="#faq" class="text-sm font-medium text-gray-300 hover:text-yellow transition-colors duration-200 no-underline">FAQ</a>
             <a href="#contact" class="text-sm font-medium text-gray-300 hover:text-yellow transition-colors duration-200 no-underline">Contact</a>
             <a href="#contact" class="btn-yellow no-underline px-5 py-2 text-sm tracking-wider">JE RÉSERVE</a>
@@ -313,6 +407,7 @@
         <div class="flex flex-col gap-3">
           <a href="#accueil" class="text-gray-300 hover:text-yellow no-underline py-2">Accueil</a>
           <a href="#formules" class="text-gray-300 hover:text-yellow no-underline py-2">Formules</a>
+          <a href="#realisations" class="text-gray-300 hover:text-yellow no-underline py-2">Réalisations</a>
           <a href="#faq" class="text-gray-300 hover:text-yellow no-underline py-2">FAQ</a>
           <a href="#contact" class="text-gray-300 hover:text-yellow no-underline py-2">Contact</a>
           <a href="#contact" class="btn-yellow no-underline px-5 py-2 text-sm tracking-wider text-center">JE RÉSERVE</a>
@@ -465,6 +560,95 @@
             <h3 class="font-anton text-2xl text-white">CHRIS SALVADOR</h3>
             <p class="text-yellow text-xs tracking-[2px] mt-1">INGÉNIEUR DU SON</p>
             <p class="text-gray-500 text-sm mt-3 leading-relaxed max-w-xs mx-auto">Expert en mixage et sound design, il sculpte l'identité sonore de chaque projet avec une précision d'orfèvre. Du studio à la scène, le son est entre de bonnes mains.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RÉALISATIONS MUSICALES -->
+    <section id="realisations" class="py-24 border-t border-gray-box/50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 fade-in">
+          <span class="text-yellow font-anton text-sm tracking-[4px]">RÉALISATIONS</span>
+          <h2 class="font-anton text-4xl sm:text-5xl mt-3">NOS <span class="text-yellow">PRODUCTIONS</span></h2>
+          <div class="w-16 h-1 bg-yellow mx-auto mt-6"></div>
+          <p class="text-gray-400 mt-4 max-w-lg mx-auto">Clique sur un titre pour écouter</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto" id="audio-grid">
+          <div class="audio-card bg-gray-box p-6 fade-in stagger-1" data-track="0">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="play-btn" data-track="0">
+                <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+              </div>
+              <div class="min-w-0 flex-1">
+                <h3 class="font-anton text-lg text-white truncate">PATATE SECA</h3>
+                <p class="text-gray-500 text-xs tracking-wider">HARLEM</p>
+              </div>
+            </div>
+            <div class="wave-bars hidden" data-wave="0">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="progress-track mt-3" data-track="0">
+              <div class="progress-fill" data-track="0"></div>
+              <div class="progress-thumb" data-track="0"></div>
+            </div>
+            <div class="flex justify-between mt-2">
+              <span class="text-gray-600 text-xs current-time" data-track="0">0:00</span>
+              <span class="text-gray-600 text-xs duration" data-track="0">0:00</span>
+            </div>
+            <audio preload="metadata" data-track="0">
+              <source src="src/mp3/Harlem - patate seca.mp3" type="audio/mpeg" />
+            </audio>
+          </div>
+          <div class="audio-card bg-gray-box p-6 fade-in stagger-2" data-track="1">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="play-btn" data-track="1">
+                <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+              </div>
+              <div class="min-w-0 flex-1">
+                <h3 class="font-anton text-lg text-white truncate">LA MAGIE</h3>
+                <p class="text-gray-500 text-xs tracking-wider">HARLEM X 2NILAME</p>
+              </div>
+            </div>
+            <div class="wave-bars hidden" data-wave="1">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="progress-track mt-3" data-track="1">
+              <div class="progress-fill" data-track="1"></div>
+              <div class="progress-thumb" data-track="1"></div>
+            </div>
+            <div class="flex justify-between mt-2">
+              <span class="text-gray-600 text-xs current-time" data-track="1">0:00</span>
+              <span class="text-gray-600 text-xs duration" data-track="1">0:00</span>
+            </div>
+            <audio preload="metadata" data-track="1">
+              <source src="src/mp3/Harlem X 2nilame - La Magie.mp3" type="audio/mpeg" />
+            </audio>
+          </div>
+          <div class="audio-card bg-gray-box p-6 fade-in stagger-3" data-track="2">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="play-btn" data-track="2">
+                <svg viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+              </div>
+              <div class="min-w-0 flex-1">
+                <h3 class="font-anton text-lg text-white truncate">FREESTYLE 2</h3>
+                <p class="text-gray-500 text-xs tracking-wider">MOKTAR</p>
+              </div>
+            </div>
+            <div class="wave-bars hidden" data-wave="2">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="progress-track mt-3" data-track="2">
+              <div class="progress-fill" data-track="2"></div>
+              <div class="progress-thumb" data-track="2"></div>
+            </div>
+            <div class="flex justify-between mt-2">
+              <span class="text-gray-600 text-xs current-time" data-track="2">0:00</span>
+              <span class="text-gray-600 text-xs duration" data-track="2">0:00</span>
+            </div>
+            <audio preload="metadata" data-track="2">
+              <source src="src/mp3/MOKTAR _ FREESTYLE2 ILS ME PARLENT DE QUOI.mp3" type="audio/mpeg" />
+            </audio>
           </div>
         </div>
       </div>
@@ -777,6 +961,118 @@
             ? '1px solid rgba(245, 197, 24, 0.2)'
             : '1px solid rgba(245, 197, 24, 0.1)';
         });
+
+        // Audio player
+        const audios = [];
+        const tracks = document.querySelectorAll('[data-track]');
+        const trackCount = document.querySelectorAll('.audio-card').length;
+
+        for (let i = 0; i < trackCount; i++) {
+          const audio = document.querySelector(`audio[data-track="${i}"]`);
+          if (audio) audios[i] = audio;
+        }
+
+        function formatTime(s) {
+          if (isNaN(s)) return '0:00';
+          const m = Math.floor(s / 60);
+          const sec = Math.floor(s % 60);
+          return m + ':' + (sec < 10 ? '0' : '') + sec;
+        }
+
+        function stopAll(except) {
+          for (let i = 0; i < audios.length; i++) {
+            if (!audios[i] || i === except) continue;
+            audios[i].pause();
+            audios[i].currentTime = 0;
+            const btn = document.querySelector(`.play-btn[data-track="${i}"]`);
+            const card = document.querySelector(`.audio-card[data-track="${i}"]`);
+            const wave = document.querySelector(`[data-wave="${i}"]`);
+            if (btn) btn.classList.remove('playing');
+            if (card) card.classList.remove('playing');
+            if (wave) wave.classList.add('hidden');
+            const fill = document.querySelector(`.progress-fill[data-track="${i}"]`);
+            const thumb = document.querySelector(`.progress-thumb[data-track="${i}"]`);
+            const current = document.querySelector(`.current-time[data-track="${i}"]`);
+            if (fill) fill.style.width = '0%';
+            if (thumb) thumb.style.left = '0%';
+            if (current) current.textContent = '0:00';
+          }
+        }
+
+        document.querySelectorAll('.play-btn, .audio-card').forEach(el => {
+          el.addEventListener('click', function(e) {
+            if (e.target.closest('.play-btn') || this.classList.contains('audio-card')) {
+              const idx = parseInt(this.dataset.track);
+              const audio = audios[idx];
+              const btn = document.querySelector(`.play-btn[data-track="${idx}"]`);
+              const card = document.querySelector(`.audio-card[data-track="${idx}"]`);
+              const wave = document.querySelector(`[data-wave="${idx}"]`);
+
+              if (audio.paused) {
+                stopAll(idx);
+                audio.play();
+                btn.classList.add('playing');
+                card.classList.add('playing');
+                wave.classList.remove('hidden');
+              } else {
+                audio.pause();
+                btn.classList.remove('playing');
+                card.classList.remove('playing');
+                wave.classList.add('hidden');
+              }
+            }
+          });
+        });
+
+        for (let i = 0; i < audios.length; i++) {
+          const audio = audios[i];
+          if (!audio) continue;
+
+          audio.addEventListener('loadedmetadata', () => {
+            const d = document.querySelector(`.duration[data-track="${i}"]`);
+            if (d) d.textContent = formatTime(audio.duration);
+          });
+
+          audio.addEventListener('timeupdate', () => {
+            const fill = document.querySelector(`.progress-fill[data-track="${i}"]`);
+            const thumb = document.querySelector(`.progress-thumb[data-track="${i}"]`);
+            const current = document.querySelector(`.current-time[data-track="${i}"]`);
+            const pct = (audio.currentTime / audio.duration) * 100;
+            if (fill) fill.style.width = pct + '%';
+            if (thumb) thumb.style.left = pct + '%';
+            if (current) current.textContent = formatTime(audio.currentTime);
+          });
+
+          audio.addEventListener('ended', () => {
+            const btn = document.querySelector(`.play-btn[data-track="${i}"]`);
+            const card = document.querySelector(`.audio-card[data-track="${i}"]`);
+            const wave = document.querySelector(`[data-wave="${i}"]`);
+            if (btn) btn.classList.remove('playing');
+            if (card) card.classList.remove('playing');
+            if (wave) wave.classList.add('hidden');
+            const fill = document.querySelector(`.progress-fill[data-track="${i}"]`);
+            const thumb = document.querySelector(`.progress-thumb[data-track="${i}"]`);
+            const current = document.querySelector(`.current-time[data-track="${i}"]`);
+            if (fill) fill.style.width = '0%';
+            if (thumb) thumb.style.left = '0%';
+            if (current) current.textContent = '0:00';
+          });
+
+          audio.addEventListener('error', () => {
+            const d = document.querySelector(`.duration[data-track="${i}"]`);
+            if (d) d.textContent = '--:--';
+          });
+
+          // Click on progress bar to seek
+          const track = document.querySelector(`.progress-track[data-track="${i}"]`);
+          if (track) {
+            track.addEventListener('click', function(e) {
+              const rect = this.getBoundingClientRect();
+              const pct = (e.clientX - rect.left) / rect.width;
+              audio.currentTime = pct * audio.duration;
+            });
+          }
+        }
       });
     </script>
   </body>
