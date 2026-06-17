@@ -999,28 +999,35 @@
           }
         }
 
-        document.querySelectorAll('.play-btn, .audio-card').forEach(el => {
+        document.querySelectorAll('.play-btn').forEach(el => {
           el.addEventListener('click', function(e) {
-            if (e.target.closest('.play-btn') || this.classList.contains('audio-card')) {
-              const idx = parseInt(this.dataset.track);
-              const audio = audios[idx];
-              const btn = document.querySelector(`.play-btn[data-track="${idx}"]`);
-              const card = document.querySelector(`.audio-card[data-track="${idx}"]`);
-              const wave = document.querySelector(`[data-wave="${idx}"]`);
+            e.stopPropagation();
+            const idx = parseInt(this.dataset.track);
+            const audio = audios[idx];
+            const btn = document.querySelector(`.play-btn[data-track="${idx}"]`);
+            const card = document.querySelector(`.audio-card[data-track="${idx}"]`);
+            const wave = document.querySelector(`[data-wave="${idx}"]`);
 
-              if (audio.paused) {
-                stopAll(idx);
-                audio.play();
-                btn.classList.add('playing');
-                card.classList.add('playing');
-                wave.classList.remove('hidden');
-              } else {
-                audio.pause();
-                btn.classList.remove('playing');
-                card.classList.remove('playing');
-                wave.classList.add('hidden');
-              }
+            if (audio.paused) {
+              stopAll(idx);
+              audio.play();
+              btn.classList.add('playing');
+              card.classList.add('playing');
+              wave.classList.remove('hidden');
+            } else {
+              audio.pause();
+              btn.classList.remove('playing');
+              card.classList.remove('playing');
+              wave.classList.add('hidden');
             }
+          });
+        });
+
+        document.querySelectorAll('.audio-card').forEach(el => {
+          el.addEventListener('click', function(e) {
+            if (e.target.closest('.play-btn') || e.target.closest('.progress-track')) return;
+            const btn = this.querySelector('.play-btn');
+            if (btn) btn.click();
           });
         });
 
